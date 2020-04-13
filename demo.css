@@ -262,6 +262,8 @@
 
 
 /*********************** Tab05 ****************************/
+
+
 /* Grid css */
 
 .gird-container {
@@ -287,8 +289,9 @@
 }
 
 .cardsportal {
-  padding: 20px 0 0 0;
+    padding: 20px 0 0 0;
 }
+
 
 /*iframe css*/
 
@@ -383,7 +386,6 @@
 .designportal .basic-spaceSet {
     display: flex;
     flex-wrap: wrap;
-    padding: 0px 20px 0px 20px;
     background-color: rgba(255, 255, 255, 1);
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.05);
     border-radius: 10px;
@@ -492,21 +494,6 @@
     }
 }
 
-.designportal .basic-space-img-01 {
-    background-color: #EBB71E;
-    background-image: url(https://cndevdemo.oss-cn-shanghai.aliyuncs.com/images/space_bg_01.png);
-}
-
-.designportal .basic-space-img-02 {
-    background-color: #66C4AE;
-    background-image: url(https://cndevdemo.oss-cn-shanghai.aliyuncs.com/images/space_bg_02.png);
-}
-
-.designportal .basic-space-img-03 {
-    background-color: #F26D41;
-    background-image: url(https://cndevdemo.oss-cn-shanghai.aliyuncs.com/images/space_bg_03.png);
-}
-
 .designportal .basic-space-name {
     font-size: 1.2rem;
     margin-top: 10px;
@@ -523,7 +510,7 @@
 .designportal .basic-space-introduction {
     width: 66%;
     margin: 30px 0 0 30px;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 @media screen and (max-width: 1160px) {
@@ -887,7 +874,7 @@
         white-space: nowrap
     }
     .poster-background .posters .lax-wrap:nth-child(8) .poster-wrap[data-v-eaa6e270] {
-        transform: translate(50%, 0) rotate(10deg)
+        transform: translate(40%, 0) rotate(10deg)
     }
     .poster-background .posters .lax-wrap:nth-child(8) .poster-wrap:hover .poster[data-v-eaa6e270],
     .poster-background .posters .lax-wrap:nth-child(9) .poster-wrap:hover .poster[data-v-eaa6e270] {
@@ -1166,7 +1153,7 @@ elements-of-type(html5-block) {
         width: 36px;
         height: 36px
     }
-
+    
     .poster[data-v-5f443e23] img {
         height: 175px
     }
@@ -1188,27 +1175,27 @@ elements-of-type(html5-block) {
 }
 
 /*********************** Tab01 ****************************/
-.inforportal {
+.tips-show {
     width: 80%;
     margin: 0 auto;
 }
 @media screen and (max-width:1440px) {
-    .inforportal {
+    .tips-show {
         width: 98%;
         margin: 0 auto;
     }
 }
-.inforportal a,
-.inforportal a:link,
-.inforportal a:visited {
+.tips-show a,
+.tips-show a:link,
+.tips-show a:visited {
     color: #fff;
 }
-.inforportal a:hover,
-.inforportal a:active {
+.tips-show a:hover,
+.tips-show a:active {
     color: #fff;
     text-decoration: underline;
 }
-.inforportal .label {
+.tips-show .label {
     display: inline-block;
     position: absolute;
     top: 0;
@@ -1218,7 +1205,7 @@ elements-of-type(html5-block) {
     color: #fff;
     padding: 5px 10px;
 }
-.inforportal .content {
+.tips-show .content {
     display: inline-block;
     position: absolute;
     width: 100%;
@@ -1228,27 +1215,25 @@ elements-of-type(html5-block) {
     z-index: 998;
     border-radius: 5px;
 }
-.inforportal .content .shadow {
+.tips-show .content .shadow {
     border-radius: 5px;
     background-color: #fff;
     box-shadow: 0 0 10px #ccc;
 }
-.inforportal .oneColumn {
+.tips-show .oneColumn {
     display: block;
     width: 100%;
     margin: 0 auto;
     padding: 20px 0;
 }
-
-.inforportal .twoColumns {
+.tips-show .twoColumns {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: nowrap;
     padding: 20px 0;
 }
-
-.inforportal .ganttChart {
+.tips-show .ganttChart {
     display: block;
     position: relative;
     left: 0;
@@ -1256,13 +1241,13 @@ elements-of-type(html5-block) {
     z-index: 0;
     width: 100%;
 }
-.inforportal .ganttChart .content {
+.tips-show .ganttChart .content {
     position: static;
 }
-.inforportal .ganttChart .fn-content {
+.tips-show .ganttChart .fn-content {
     border-radius: 5px;
 }
-.inforportal .amap {
+.tips-show .amap {
     display: inline-block;
     position: relative;
     left: 0px;
@@ -1272,10 +1257,10 @@ elements-of-type(html5-block) {
     height: 215px;
     margin-right: 2%;
 }
-.inforportal .amap .label {
+.tips-show .amap .label {
     right: 0;
 }
-.inforportal .devEnvironment {
+.tips-show .devEnvironment {
     display: inline-block;
     position: relative;
     right: 0;
@@ -1284,22 +1269,22 @@ elements-of-type(html5-block) {
     width: 42%;
     text-align: right;
 }
-.inforportal .devEnvironment img {
+.tips-show .devEnvironment img {
     display: inline-block;
     width: 100%;
     text-align: right;
 }
-.inforportal .graph11 {
+.tips-show .graph11 {
     display: inline-block;
     position: relative;
     left: 0px;
     top: 0px;
     z-index: 0;
-    width: 68%;
-    height: 250px;
+    width: 70%;
+    height: 280px;
     margin-right: 2%;
 }
-.inforportal .graph11 .content {
+.tips-show .graph11 .content {
     display: inline-block;
     position: absolute;
     width: 100%;
@@ -1311,98 +1296,106 @@ elements-of-type(html5-block) {
     background-color: #fff;
     box-shadow: 0 0 10px #ccc;
 }
-.inforportal .tips {
+.tips-show .tips {
     display: inline-block;
     position: relative;
     right: 0;
     top: 0;
     z-index: 0;
-    width: 372px;
-    height: 250px;
+    width: 28%;
 }
-.inforportal .tips .white-bg {
+.tips-show .tips .white-bg {
     display: inline-block;
     border-radius: 5px;
-    width: 371px;
+    width: 100%;
     background-color: #fff;
     box-shadow: 0 0 10px #ccc;
 }
-.inforportal .tips .blue-bg {
+.tips-show .tips .blue-bg {
     display: inline-block;
     border-radius: 5px;
     margin: 10px;
     background-color: #2a3344;
 }
-.inforportal .tips ul {
+.tips-show .tips ul {
     list-style-type: none;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     flex-wrap: wrap;
-    padding: 13px 9px 0 9px;
+    padding: 9px 0 0 9px;
 }
-.inforportal .tips ul li {
+.tips-show .tips ul li {
     display: inline;
-    padding: 0 0 8px 0;
+    width: 50%;
+    padding: 0 0 5px 0;
 }
-.inforportal .tips ul li img {
+.tips-show .tips ul li img {
+    width: 95%;
     box-shadow: none;
 }
-.inforportal .spaceApp {
+.tips-show .spaceApp {
     display: block;
     position: relative;
     right: 0;
     top: 0;
     z-index: 0;
     width: 100%;
-    height: 50px;
+    height: 80px;
 }
-.inforportal .spaceApp ul {
+.tips-show .spaceApp ul {
     list-style-type: none;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     flex-wrap: nowrap;
 }
-.inforportal .spaceApp ul li {
+.tips-show .spaceApp ul li {
     display: inline-block;
     position: relative;
-    width: 20%;
+    width: 23%;
+    height: 90px;
     border-radius: 5px;
     box-shadow: 0 0 10px #ccc;
+    background-size: 45%;
+    background-repeat: no-repeat;
 }
-.inforportal .spaceApp ul li:first-child {
+.tips-show .spaceApp ul li:first-child {
+    background-image: url('https://cndevdemo.oss-cn-shanghai.aliyuncs.com/images/portal-design/tips-show/space-img01.png');
     background-color: #EBB71E;
 }
-.inforportal .spaceApp ul li:nth-child(2) {
+.tips-show .spaceApp ul li:nth-child(2) {
+    background-image: url('https://cndevdemo.oss-cn-shanghai.aliyuncs.com/images/portal-design/tips-show/space-img02.png');
     background-color: #66C4AE;
 }
-.inforportal .spaceApp ul li:nth-child(3) {
+.tips-show .spaceApp ul li:nth-child(3) {
+    background-image: url('https://cndevdemo.oss-cn-shanghai.aliyuncs.com/images/portal-design/tips-show/space-img03.png');
     background-color: #F26D41;
 }
-.inforportal .spaceApp ul li:nth-child(4) {
-    background-color: #6cd32a;
+.tips-show .spaceApp ul li:nth-child(4) {
+    background-image: url('https://cndevdemo.oss-cn-shanghai.aliyuncs.com/images/portal-design/tips-show/space-img04.png');
+    background-color: #9fcbff;
 }
-.inforportal .spaceApp ul li .title {
+.tips-show .spaceApp ul li .title {
     display: inline-block;
     position: absolute;
-    top: 0;
+    top: 17px;
     right: 0;
     z-index: 999;
     padding: 15px 30px;
     font-weight: bold;
     font-size: 18px;
 }
-.inforportal .spaceApp ul li .title,
-.inforportal .spaceApp ul li .title:link,
-.inforportal .spaceApp ul li .title:visited {
+.tips-show .spaceApp ul li .title,
+.tips-show .spaceApp ul li .title:link,
+.tips-show .spaceApp ul li .title:visited {
     color: #2a3344;
 }
-.inforportal .spaceApp ul li .title:hover,
-.inforportal .spaceApp ul li .title:active {
+.tips-show .spaceApp ul li .title:hover,
+.tips-show .spaceApp ul li .title:active {
     color: #fff;
 }
-.inforportal .spaceApp .img-bg {
+.tips-show .spaceApp .img-bg {
     display: inline-block;
     position: relative;
     left: 0;
@@ -1410,7 +1403,7 @@ elements-of-type(html5-block) {
     z-index: 998;
     border-radius: 5px;
 }
-.inforportal .spaceApp img {
+.tips-show .spaceApp img {
     width: 100%;
     display: inline-block;
 }
@@ -1517,39 +1510,39 @@ elements-of-type(html5-block) {
     0% {
         top: 0px;
     }
-
+    
     5% {
         top: 0px;
     }
-
+    
     25% {
         top: -60px;
     }
-
+    
     30% {
         top: -60px;
     }
-
+    
     50% {
         top: -120px;
     }
-
+    
     55% {
         top: -120px;
     }
-
+    
     75% {
         top: -180px;
     }
-
+    
     80% {
         top: -180px;
     }
-
+    
     90% {
         top: -220px;
     }
-
+    
     100% {
         top: -220px;
     }
