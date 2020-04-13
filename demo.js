@@ -5,7 +5,7 @@ https://github.com/ushiront/maptomo-kinportal
 -------------------------------------------------------------------*/
 
 jQuery.noConflict();
-(function($) {
+(function ($) {
     'use strict';
 
     /*
@@ -17,25 +17,25 @@ jQuery.noConflict();
     var buttonEls = document.querySelectorAll('.advanced-tab');
     var tabPanelEls = document.querySelectorAll('.advanced-panel-contents ');
 
-    var removeAllButtonActive = function() {
-        buttonEls.forEach(function(buttonEl) {
+    var removeAllButtonActive = function () {
+        buttonEls.forEach(function (buttonEl) {
             buttonEl.classList.remove('advanced-tab--active');
         });
     };
 
-    var removeAllButtonExpanded = function() {
-        buttonEls.forEach(function(buttonEl) {
+    var removeAllButtonExpanded = function () {
+        buttonEls.forEach(function (buttonEl) {
             buttonEl.setAttribute('aria-expanded', 'false');
         });
     };
 
-    var removeAllTabPanelActive = function() {
-        tabPanelEls.forEach(function(tabPanelEl) {
+    var removeAllTabPanelActive = function () {
+        tabPanelEls.forEach(function (tabPanelEl) {
             tabPanelEl.classList.remove('advanced-panel-contents--active');
         });
     };
 
-    var getTabNumber = function(buttonEl) {
+    var getTabNumber = function (buttonEl) {
         var number = 0;
         for (; number < buttonEls.length; number++) {
             if (buttonEls[number] === buttonEl) {
@@ -46,7 +46,7 @@ jQuery.noConflict();
     };
 
 
-    var handleClick = function(evt) {
+    var handleClick = function (evt) {
         removeAllButtonActive();
         evt.target.classList.add('advanced-tab--active');
 
@@ -59,7 +59,7 @@ jQuery.noConflict();
         tabPanelEls[tabNumber].classList.add('advanced-panel-contents--active');
     };
 
-    buttonEls.forEach(function(buttonEl) {
+    buttonEls.forEach(function (buttonEl) {
         buttonEl.addEventListener('click', handleClick);
     });
 
@@ -76,12 +76,16 @@ jQuery.noConflict();
     document.body.appendChild(script_magic_grid);
         */
 
+    var loginuser = kintone.getLoginUser();
+    if (loginuser.code !== "Administrator") {
+        $('head').append('<link href="https://cndevdemo.oss-cn-shanghai.aliyuncs.com/css/display-none20160226.css" rel="stylesheet" type="text/css" />')
+    }
     /*
         Draw standard tab to kintone css
         ** It may stop working if the CSS specification changes.
         */
     // console.log(location.href);
-    var drawStandardVeiw = function(viewType) {
+    var drawStandardVeiw = function (viewType) {
         var st_left = document.getElementsByClassName('st-left');
         var st_right = document.getElementsByClassName('st-right');
         st_left[0].appendChild(document.getElementsByClassName('ocean-portal-body-left')[0]);
@@ -92,7 +96,7 @@ jQuery.noConflict();
     /*
         Draw MagicGrid by event type.
         */
-    var drawGrid = function(type) {
+    var drawGrid = function (type) {
 
         var maxColumns = 6;
         var magicGrid = new MagicGrid({
@@ -110,7 +114,7 @@ jQuery.noConflict();
     /*
         Get viewer type. pc type or mobile type.
         */
-    var getViewType = function() {
+    var getViewType = function () {
 
         var vw_type = 'portal.show';
         var pathname = window.location.pathname;
@@ -155,7 +159,7 @@ jQuery.noConflict();
         app: GANTTCHART_APPID // query: 'order by date asc' 甘特图
 
     };
-    kintoneRecord.getAllRecordsByCursor(ganttOption).then(function(rsp) {
+    kintoneRecord.getAllRecordsByCursor(ganttOption).then(function (rsp) {
         var records = rsp.records;
         var todoData = []; // Don't display when there is no record.
 
@@ -247,7 +251,7 @@ jQuery.noConflict();
             waitText: ganttWaitmessage,
             scrollToToday: true
         });
-    }).catch(function(err) {
+    }).catch(function (err) {
         $('#gantt').innerText = err;
     });
 
@@ -277,10 +281,10 @@ jQuery.noConflict();
 
         // 通过地址获取并更新经纬度
         for (var i = 0; i < addressList.length; i++) {
-            return new kintone.Promise(function(resolve, reject) {
-                AMap.plugin('AMap.Geocoder', function() {
+            return new kintone.Promise(function (resolve, reject) {
+                AMap.plugin('AMap.Geocoder', function () {
                     var geocoder = new AMap.Geocoder({});
-                    geocoder.getLocation(addressList[i], function(status, result) {
+                    geocoder.getLocation(addressList[i], function (status, result) {
                         if (status === 'complete' && result.info === 'OK') {
                             if (result.geocodes) {
                                 record[LAT].value = result.geocodes[0].location.lat;
@@ -350,10 +354,10 @@ jQuery.noConflict();
         app: MAP_APPID // 高德地图
     };
 
-    kintoneRecord.getAllRecordsByCursor(mapOption).then(function(rsp) {
+    kintoneRecord.getAllRecordsByCursor(mapOption).then(function (rsp) {
         geoLATLNG(rsp);
         setLocationIndex(rsp);
-    }).catch(function(err) {
+    }).catch(function (err) {
         $('#map').innerText = '获取数据失败';
     });
 
@@ -383,7 +387,7 @@ jQuery.noConflict();
             query: 'order by date asc'
         };
         var myChart = echarts.init(document.getElementById('graph'));
-        myChart.on('updateAxisPointer', function(event) {
+        myChart.on('updateAxisPointer', function (event) {
             var xAxisInfo = event.axesInfo[0];
 
             if (xAxisInfo) {
@@ -402,7 +406,7 @@ jQuery.noConflict();
                 });
             }
         });
-        kintoneRecord.getAllRecordsByCursor(chartOption).then(function(rsp) {
+        kintoneRecord.getAllRecordsByCursor(chartOption).then(function (rsp) {
             var records = rsp.records;
             var graphData = {
                 'channel1': ['京东'],
@@ -480,7 +484,7 @@ jQuery.noConflict();
                 }]
             };
             myChart.setOption(option);
-        }).catch(function(err) {
+        }).catch(function (err) {
             document.getElementById('graph').innerText = err;
         });
     }
@@ -511,18 +515,18 @@ jQuery.noConflict();
         'id': 5
     };
 
-    kintone.api(kintone.api.url('/k/v1/record', true), 'GET', params, function(resp) {
+    kintone.api(kintone.api.url('/k/v1/record', true), 'GET', params, function (resp) {
         var spaceIDs = resp.record.SpaceID.value;
         var spaceApps = [];
 
 
         // 获取空间信息
-        $.each(spaceIDs, function(index, spaceID) {
+        $.each(spaceIDs, function (index, spaceID) {
             var paramForSpace = {
                 'id': spaceID
             };
 
-            return kintone.api(kintone.api.url('/k/v1/space', true), 'GET', paramForSpace).then(function(spaceResp) {
+            return kintone.api(kintone.api.url('/k/v1/space', true), 'GET', paramForSpace).then(function (spaceResp) {
                 var ele;
                 if (index === 0) {
                     $('#appShow1st').attr('href', '/k/#/space/' + spaceResp.id);
@@ -565,12 +569,12 @@ jQuery.noConflict();
     // 获取空间内应用的信息并动态生成HTML
     function setAppInfo(apps, ele) {
         var appIds = [];
-        $.each(apps, function(key, singleApp) {
+        $.each(apps, function (key, singleApp) {
             appIds.push(singleApp.appId);
         });
 
-        return kintone.api(kintone.api.url('/k/api/app/list'), 'POST', { 'apps': appIds }).then(function(resp) {
-            $.each(resp.result.appList, function(index, app) {
+        return kintone.api(kintone.api.url('/k/api/app/list'), 'POST', { 'apps': appIds }).then(function (resp) {
+            $.each(resp.result.appList, function (index, app) {
                 $(ele).append(
                     '<li class="basic-app">' +
                     '<a class="basic-app-link" href="../k/' + app.id + '/">' +
@@ -589,7 +593,7 @@ jQuery.noConflict();
 
 
     // $(function() {
-    $('#appShow1st').hover(function(event) {
+    $('#appShow1st').hover(function (event) {
         // 取消事件冒泡
         event.stopPropagation();
         $('#appShow1stCon').fadeIn(1400).css('display', 'flex');
@@ -597,28 +601,28 @@ jQuery.noConflict();
         return false;
     });
 
-    $('#appShow2nd').hover(function(event) {
+    $('#appShow2nd').hover(function (event) {
         event.stopPropagation();
         $('#appShow2ndCon').fadeIn(1400).css('display', 'flex');
         $('#appShow1stCon, #appShow3rdCon, #appShow4thCon').slideUp(500);
         return false;
     });
 
-    $('#appShow3rd').hover(function(event) {
+    $('#appShow3rd').hover(function (event) {
         event.stopPropagation();
         $('#appShow3rdCon').fadeIn(1400).css('display', 'flex');
         $('#appShow1stCon, #appShow2ndCon, #appShow4thCon').slideUp(500);
         return false;
     });
 
-    $('#appShow4th').hover(function(event) {
+    $('#appShow4th').hover(function (event) {
         event.stopPropagation();
         $('#appShow4thCon').fadeIn(1400).css('display', 'flex');
         $('#appShow1stCon, #appShow2ndCon, #appShow3rdCon').slideUp(500);
         return false;
     });
 
-    $(document).click(function(event) {
+    $(document).click(function (event) {
         var disappear_target = $('.basic-spaceSet');
         if (!disappear_target.is(event.target) && disappear_target.has(event.target).length === 0) {
             $('#appShow1stCon, #appShow2ndCon, #appShow3rdCon, #appShow4thCon').slideUp(1400);
@@ -637,9 +641,9 @@ jQuery.noConflict();
     var local_domain = location.hostname;
 
     // Post kintone cursor api
-    kintone.api(kintone.api.url('/k/v1/records/cursor', true), 'POST', query, function(resp1) {
+    kintone.api(kintone.api.url('/k/v1/records/cursor', true), 'POST', query, function (resp1) {
         // Get records by cursor id
-        return kintone.api(kintone.api.url('/k/v1/records/cursor', true), 'GET', { 'id': resp1.id }, function(resp) {
+        return kintone.api(kintone.api.url('/k/v1/records/cursor', true), 'GET', { 'id': resp1.id }, function (resp) {
 
             var records = resp.records;
             var i = 0;
@@ -676,7 +680,7 @@ jQuery.noConflict();
             }
             drawGrid(viewType);
 
-        }, function(error) {
+        }, function (error) {
             // error
             console.log(error);
             elem_main.appendChild(document.createTextNode(error.message))
