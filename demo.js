@@ -8,6 +8,19 @@ jQuery.noConflict();
 (function ($) {
     'use strict';
 
+    // 各个tab的应用配置 --------------------------------------------
+
+    // Tab app id
+    const MAP_APPID = 107;
+    const GANTTCHART_APPID = 108;
+    const ECHART_APPID = 105;
+    const GRID_APPID = 172;
+    const hideCss = "https://cndevdemo.oss-cn-shanghai.aliyuncs.com/css/display-none20160226.css";
+
+    var loginuser = kintone.getLoginUser();
+    if (loginuser.code !== "Administrator") {
+        $('head').append('<link href=' + hideCss + 'rel="stylesheet" type="text/css" />')
+    }
     /*
         Tab action is template.
         https://github.com/kintone
@@ -75,17 +88,11 @@ jQuery.noConflict();
     script_magic_grid.src = 'https://unpkg.com/magic-grid/dist/magic-grid.min.js';
     document.body.appendChild(script_magic_grid);
         */
-
-    var loginuser = kintone.getLoginUser();
-    if (loginuser.code !== "Administrator") {
-        $('head').append('<link href="https://cndevdemo.oss-cn-shanghai.aliyuncs.com/css/display-none20160226.css" rel="stylesheet" type="text/css" />')
-    }
     /*
         Draw standard tab to kintone css
         ** It may stop working if the CSS specification changes.
         */
-    // console.log(location.href);
-    var drawStandardVeiw = function (viewType) {
+    var drawStandardVeiw = function () {
         var st_left = document.getElementsByClassName('st-left');
         var st_right = document.getElementsByClassName('st-right');
         st_left[0].appendChild(document.getElementsByClassName('ocean-portal-body-left')[0]);
@@ -96,7 +103,7 @@ jQuery.noConflict();
     /*
         Draw MagicGrid by event type.
         */
-    var drawGrid = function (type) {
+    var drawGrid = function () {
 
         var maxColumns = 6;
         var magicGrid = new MagicGrid({
@@ -110,30 +117,6 @@ jQuery.noConflict();
         });
         magicGrid.listen();
     };
-
-    /*
-        Get viewer type. pc type or mobile type.
-        */
-    var getViewType = function () {
-
-        var vw_type = 'portal.show';
-        var pathname = window.location.pathname;
-        return vw_type;
-    };
-
-    // Get view type return portal.show|mobile.portal.show
-    var viewType = getViewType();
-
-
-    // 各个tab的应用配置 --------------------------------------------
-
-    // Tab01 app id
-    var MAP_APPID = 107;
-    var GANTTCHART_APPID = 108;
-    var ECHART_APPID = 105;
-
-    // Tab02,Tab04 app id
-    var MANAGEMENT_APPID = 171;
 
     // Tab01 --------------------------------------------
     var kintoneRecord = new kintoneJSSDK.Record();
@@ -506,68 +489,64 @@ jQuery.noConflict();
     $('#mapLink').attr('href', '../k/' + MAP_APPID + '/').text('利用高德地图的api在kintone上显示地图信息');
     $('#echartLink').attr('href', '../k/' + ECHART_APPID + '/').text('双十一销量实时统计图表');
 
-    // Tab02 -----------------管理后台部分-----------------------
+    // Tab02 
 
+    kintone.api(kintone.api.url('/k/api/space/list', true), "POST", {}).then(function (resp) {
+        var spaceInfo = resp.result.items;
+        spaceInfo.forEach(function (value) {
+            var spaceId = value.id;
+            getAppId(spaceId).then(setSpaceInfo).then(setAppShow);
+        })
+    })
 
-    // 从管理空间的后台应用中获取要显示的空间
-    var params = {
-        'app': MANAGEMENT_APPID,
-        'id': 5
-    };
+    function getAppId(spaceID) {
+        var paramForSpace = {
+            'id': spaceID
+        };
+        return kintone.api(kintone.api.url('/k/v1/space', true), 'GET', paramForSpace);
+    }
 
-    kintone.api(kintone.api.url('/k/v1/record', true), 'GET', params, function (resp) {
-        var spaceIDs = resp.record.SpaceID.value;
-        var spaceApps = [];
+    function setSpaceInfo(spaceResp) {
+        var spaceShowId = "spaceShow" + spaceResp.id;
+        var appShowId = "appShow" + spaceResp.id;
+        var url = "/k/#/space/" + spaceResp.id;
+        var spaceEl = '<section class="basic-container">' +
+            '<ul class="basic-spaceSet">' +
+            '<li class="basic-space">' +
+            '<a class="basic-space-link"  id=' + spaceShowId + ' href=' + url + '>' +
+            '<div class="basic-space-img-container">' +
+            '<div class="basic-space-img" style="background-image: url(' + spaceResp.coverUrl + ');"></div>' +
+            '</div>' +
+            '<p class="basic-space-name">' + spaceResp.name +
+            '</p>' +
+            '</a>' +
+            '</li>' +
+            '<li class="basic-space-introduction">' +
+            '<p>' + spaceResp.body + '</p>' +
+            '</li>' +
+            '<ul  id=' + appShowId + ' class="basic-appSet">' +
+            '</ul>' +
+            '</ul>' +
+            '</section>"';
+        $("#spaceList").append(spaceEl);
 
+        var ele = "#appShow" + spaceResp.id;
+        return setAppInfo(spaceResp.attachedApps, ele, spaceResp.id);
+    }
 
-        // 获取空间信息
-        $.each(spaceIDs, function (index, spaceID) {
-            var paramForSpace = {
-                'id': spaceID
-            };
-
-            return kintone.api(kintone.api.url('/k/v1/space', true), 'GET', paramForSpace).then(function (spaceResp) {
-                var ele;
-                if (index === 0) {
-                    $('#appShow1st').attr('href', '/k/#/space/' + spaceResp.id);
-                    $('#space-name-1st').text(spaceResp.name);
-                    $('#space-intro-1st').html(spaceResp.body);
-                    $('#space-cover-1').attr('style', 'background-image: url(' + spaceResp.coverUrl + ');');
-                    ele = '#appShow1stCon';
-                    setAppInfo(spaceResp.attachedApps, ele);
-                }
-                if (index === 1) {
-                    $('#appShow2nd').attr('href', '/k/#/space/' + spaceResp.id);
-                    $('#space-name-2nd').text(spaceResp.name);
-                    $('#space-intro-2nd').append(spaceResp.body);
-                    $('#space-cover-2').attr('style', 'background-image: url(' + spaceResp.coverUrl + ');');
-                    ele = '#appShow2ndCon';
-                    setAppInfo(spaceResp.attachedApps, ele);
-                }
-                if (index === 2) {
-                    $('#appShow3rd').attr('href', '/k/#/space/' + spaceResp.id);
-                    $('#space-name-3rd').text(spaceResp.name);
-                    $('#space-intro-3rd').append(spaceResp.body);
-                    $('#space-cover-3').attr('style', 'background-image: url(' + spaceResp.coverUrl + ');');
-                    $('#appShow3rdCon .basic-app').addClass('app-widthsmall');
-                    ele = '#appShow3rdCon';
-                    setAppInfo(spaceResp.attachedApps, ele);
-
-                }
-                if (index === 3) {
-                    $('#appShow4th').attr('href', '/k/#/space/' + spaceResp.id);
-                    $('#space-name-4th').text(spaceResp.name);
-                    $('#space-intro-4th').append(spaceResp.body);
-                    $('#space-cover-4').attr('style', 'background-image: url(' + spaceResp.coverUrl + ');');
-                    ele = '#appShow4thCon';
-                    setAppInfo(spaceResp.attachedApps, ele);
-                }
-            });
+    function setAppShow(spaceId) {
+        var spaceShowId = "#spaceShow" + spaceId;
+        var appShowId = "#appShow" + spaceId;
+        $(spaceShowId).hover(function (event) {
+            event.stopPropagation();
+            $(appShowId).fadeIn(1400).css('display', 'flex');
+            $('.basic-appSet:not(' + appShowId + ')').slideUp(500);
+            return false;
         });
-    });
+    }
 
     // 获取空间内应用的信息并动态生成HTML
-    function setAppInfo(apps, ele) {
+    function setAppInfo(apps, ele, spaceId) {
         var appIds = [];
         $.each(apps, function (key, singleApp) {
             appIds.push(singleApp.appId);
@@ -585,54 +564,20 @@ jQuery.noConflict();
                     '</a>' +
                     '</li>');
             });
+            return spaceId;
         });
     }
-
-
-    // Tab03 --------------------------------------------
-
-
-    // $(function() {
-    $('#appShow1st').hover(function (event) {
-        // 取消事件冒泡
-        event.stopPropagation();
-        $('#appShow1stCon').fadeIn(1400).css('display', 'flex');
-        $('#appShow2ndCon, #appShow3rdCon, #appShow4thCon').slideUp(500);
-        return false;
-    });
-
-    $('#appShow2nd').hover(function (event) {
-        event.stopPropagation();
-        $('#appShow2ndCon').fadeIn(1400).css('display', 'flex');
-        $('#appShow1stCon, #appShow3rdCon, #appShow4thCon').slideUp(500);
-        return false;
-    });
-
-    $('#appShow3rd').hover(function (event) {
-        event.stopPropagation();
-        $('#appShow3rdCon').fadeIn(1400).css('display', 'flex');
-        $('#appShow1stCon, #appShow2ndCon, #appShow4thCon').slideUp(500);
-        return false;
-    });
-
-    $('#appShow4th').hover(function (event) {
-        event.stopPropagation();
-        $('#appShow4thCon').fadeIn(1400).css('display', 'flex');
-        $('#appShow1stCon, #appShow2ndCon, #appShow3rdCon').slideUp(500);
-        return false;
-    });
 
     $(document).click(function (event) {
         var disappear_target = $('.basic-spaceSet');
         if (!disappear_target.is(event.target) && disappear_target.has(event.target).length === 0) {
-            $('#appShow1stCon, #appShow2ndCon, #appShow3rdCon, #appShow4thCon').slideUp(1400);
+            $('.basic-appSet').slideUp(1400);
         }
     });
-    // });
 
     // Tab04 --------------------------------------------
     var query = {
-        'app': 172, //appID
+        'app': GRID_APPID, //appID
         'query': 'order by Update_day desc',
         'size': 100 //max 500
     };
@@ -678,7 +623,7 @@ jQuery.noConflict();
                 elem_main.appendChild(elem_item);
 
             }
-            drawGrid(viewType);
+            drawGrid();
 
         }, function (error) {
             // error
@@ -689,6 +634,6 @@ jQuery.noConflict();
 
 
     // Tab05 --------------------------------------------
-    drawStandardVeiw(viewType);
+    drawStandardVeiw();
 
 })(jQuery);
