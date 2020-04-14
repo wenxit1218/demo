@@ -19,7 +19,7 @@ jQuery.noConflict();
 
     var loginuser = kintone.getLoginUser();
     if (loginuser.code !== "Administrator") {
-        $('head').append('<link href=' + hideCss + 'rel="stylesheet" type="text/css" />')
+        $('head').append('<link href=' + hideCss + ' rel="stylesheet" type="text/css" />')
     }
     /*
         Tab action is template.
