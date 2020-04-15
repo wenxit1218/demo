@@ -7,7 +7,6 @@ https://github.com/ushiront/maptomo-kinportal
 jQuery.noConflict();
 (function ($) {
     'use strict';
-    let a;
 
     // 各个tab的应用配置 --------------------------------------------
 
